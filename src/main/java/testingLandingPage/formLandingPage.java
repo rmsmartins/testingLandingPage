@@ -1,6 +1,9 @@
 package testingLandingPage;
 
+import java.util.List;
+
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -86,6 +89,111 @@ public class formLandingPage {
 		Select combo = new Select(element);
 		combo.selectByVisibleText("Superior");
 		Assert.assertEquals("Superior", combo.getFirstSelectedOption().getText());
+		
+		driver.quit();
+	}
+	
+	
+	@Test
+	public void testVerifySelectValues() {
+		//System.setProperty("webdriver.gecko.driver", "D:/Projetos/Drivers/geckodriver.exe");
+		System.setProperty("webdriver.chrome.driver", "D:/Projetos/Drivers/chromedriver.exe");
+		//WebDriver driver = new FirefoxDriver();
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("file:///C:/Users/rmsma/eclipse-workspace/Landing-Page/index.html");
+
+		WebElement element =  driver.findElement(By.id("formElements:escolaridade"));
+		Select combo = new Select(element);
+		
+		List<WebElement> options = combo.getOptions();
+		Assert.assertEquals(8, options.size());
+		
+		boolean encontrou = false;
+		for(WebElement option: options){
+			if(option.getText().equals("Mestrado")) {
+				encontrou = true;
+				break;
+			}
+		}
+		Assert.assertTrue(encontrou);
+		driver.quit();
+	}
+	
+	
+	@Test
+	public void testVerifySelectMultiple() {
+		//System.setProperty("webdriver.gecko.driver", "D:/Projetos/Drivers/geckodriver.exe");
+		System.setProperty("webdriver.chrome.driver", "D:/Projetos/Drivers/chromedriver.exe");
+		//WebDriver driver = new FirefoxDriver();
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("file:///C:/Users/rmsma/eclipse-workspace/Landing-Page/index.html");
+
+		WebElement element =  driver.findElement(By.id("formElements:desportos"));
+		Select combo = new Select(element);
+		
+		combo.selectByVisibleText("Futebol");
+		combo.selectByVisibleText("Atletismo");
+		combo.selectByVisibleText("Ginástica");
+		
+		List<WebElement> allSelectedOption = combo.getAllSelectedOptions();
+		
+		Assert.assertEquals(3, allSelectedOption.size());
+		
+		driver.quit();
+	}
+	
+	
+	@Test
+	public void testButton() {
+		//System.setProperty("webdriver.gecko.driver", "D:/Projetos/Drivers/geckodriver.exe");
+		System.setProperty("webdriver.chrome.driver", "D:/Projetos/Drivers/chromedriver.exe");
+		//WebDriver driver = new FirefoxDriver();
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("file:///C:/Users/rmsma/eclipse-workspace/Landing-Page/index.html");
+
+		WebElement botao = driver.findElement(By.id("buttonSimple"));
+		botao.click();
+		
+		Assert.assertEquals("Clicado", botao.getAttribute("value"));
+		
+		driver.quit();
+	}
+	
+	
+	@Test 
+	public void testLink() {
+		//System.setProperty("webdriver.gecko.driver", "D:/Projetos/Drivers/geckodriver.exe");
+		System.setProperty("webdriver.chrome.driver", "D:/Projetos/Drivers/chromedriver.exe");
+		//WebDriver driver = new FirefoxDriver();
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("file:///C:/Users/rmsma/eclipse-workspace/Landing-Page/index.html");
+
+		driver.findElement(By.linkText("Voltar")).click();
+		Assert.assertEquals("Voltou!", driver.findElement(By.id("resultado")).getText());
+		
+		driver.quit();
+	}
+	
+	
+	@Test
+	public void testSearchTextInPage() {
+		//System.setProperty("webdriver.gecko.driver", "D:/Projetos/Drivers/geckodriver.exe");
+		System.setProperty("webdriver.chrome.driver", "D:/Projetos/Drivers/chromedriver.exe");
+		//WebDriver driver = new FirefoxDriver();
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("file:///C:/Users/rmsma/eclipse-workspace/Landing-Page/index.html");
+
+		//System.out.println(driver.findElement(By.tagName("body")).getText());
+		//Assert.assertTrue(driver.findElement(By.tagName("body")).getText().contains("Comunidade Rmsmartins"));
+		
+		Assert.assertEquals("Rmsmartins Bot", driver.findElement(By.tagName("h1")).getText());
+		
+		Assert.assertEquals("Cuidado onde clica, muitas armadilhas...", driver.findElement(By.className("facilAchar")).getText());
 		
 		driver.quit();
 	}
